@@ -1,0 +1,22 @@
+●起動すらしない場合
+＊実行権限が付いているか確認
+＊３２bit実行ファイルの実行に必要なファイルをインストール
+　sudo dpkg --add-architecture i386
+　sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386
+
+
+
+●実行途中に落ちる場合：依存ファイルをインストール
+sudo apt-get install libasound2:i386
+sudo apt-get install lib32z1
+sudo apt-get install libasound2-plugins:i386
+
+
+
+●辞書ができない時は以下をチェック
+辞書がすべてひらがなで書かれているか
+以下のファイルに実行権限があるか
+mfa
+mfa_determinize
+mfa_mnimize
+

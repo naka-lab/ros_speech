@@ -1,0 +1,80 @@
+# encoding: shift_jis
+import sys
+
+def levenshtein_distance(a, b):
+    m = [ [0] * (len(b) + 1) for i in range(len(a) + 1) ]
+
+    for i in xrange(len(a) + 1):
+        m[i][0] = i
+
+    for j in xrange(len(b) + 1):
+        m[0][j] = j
+
+    for i in xrange(1, len(a) + 1):
+        for j in xrange(1, len(b) + 1):
+            if a[i - 1] == b[j - 1]:
+                x = 0
+            else:
+                x = 1
+            m[i][j] = min(m[i - 1][j] + 1, m[i][ j - 1] + 1, m[i - 1][j - 1] + x)
+
+    # •¶š—ñ‚Ìƒ}ƒbƒ`ƒ“ƒO‚ğæ‚é
+    x = len(a)
+    y = len(b)
+    aa = ""
+    bb = ""
+
+    # Œã‚ë‚©‚çƒRƒXƒg‚ªÅ¬‚Æ‚È‚éŒo˜H‚ğ’T‚·
+    while x!=0 or y!=0:
+        cost = 999999
+        cx = ""
+        cy = ""
+        #
+        for i,j,ci,cj in( (x-1,y-1,a[x-1],b[y-1]) , (x-1,y,a[x-1],u"Q") , (x,y-1,u"Q",b[y-1]) ):
+            if i>=0 and j>=0 and m[i][j] < cost:
+                cost = m[i][j]
+                x= i
+                y = j
+                cx = ci
+                cy = cj
+
+        aa = cx + aa
+        bb = cy + bb
+
+    #print aa
+    #print bb
+
+    return m[-1][-1],aa,bb
+
+def DPMatching( s ):
+    num = len(s)
+    for i in range(num):
+        for j in range(num):
+            if i != j:
+                d,s[i],s[j] = levenshtein_distance( s[i] , s[j] )
+    return s
+
+
+if __name__ == '__main__':
+    s = [
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚¾‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚È‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚Î‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚È‚¦‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚Å‚ñ‚·",
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·‚¸",
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚Å‚·",
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚¤‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
+    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚¸"
+    ]
+
+    DPMatching( s )
+
+    for ss in s:
+        print ss
+
+    #print len(s1) , len(s2)
+
+    #d,s1,s3 = levenshtein_distance(s1, s3)
+    #levenshtein_distance(s3, s2)

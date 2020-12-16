@@ -1,0 +1,19 @@
+[GRAMMAR]
+whoswho_start : ダイゴロウ、スタート
+whoswho_search : ダイゴロウ、人を探して
+whoswho_rdy : ダイゴロウ、準備して
+whoswho_myname : ダイゴロウ，私の名前は$noun_manです
+
+[NOUN]
+$noun_man
+name1 : アラキ
+name2 : キムラ
+name3 : マルヤマ
+name4 : ムラド
+name5 : マエダ
+
+
+[UTTERANCE]
+your_name : あなたの名前は $noun さんですね
+memorize : $noun さん，あなたを覚えました
+

@@ -1,0 +1,13 @@
+<launch>
+  <node pkg="julius" type="julius_recognizer.py" name="julius_recognizer" cwd="node" output="screen">
+  <param name="node_name" value="julius_smallvocab" />  
+  <param name="julius_script" value="Julius/SmallVocab.sh" />
+  <param name="port" value="10002" />
+  <param name="mode" value="gram" />
+  </node>
+
+  <node pkg="jtalk" type="openjtalk.py" name="open_jtalk" cwd="node">
+  </node>
+
+</launch>
+
