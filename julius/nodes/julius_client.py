@@ -22,7 +22,8 @@ class JuliusRecogResult():
 
 class JuliusClient():
     def RecieveThread( client ):
-        data = ""        
+        #data = ""      
+        data = bytes()  
         while client.isAlive:
             data += client.soc.recv(1)
 
@@ -30,12 +31,14 @@ class JuliusClient():
                      break
 
             # データの区切りを見つける
-            pos = data.find( "\n." )
+            pos = data.find( b"\n." )
             if pos!=-1:
                 packet = data[:pos]
                 data = data[pos+2:]
 
-                client.ParsePacket( packet )
+                client.ParsePacket( packet.decode() )
+
+        client.statusChangeEvent.set()  
 
     def __init__( self ):
         self.soc = None
@@ -54,14 +57,14 @@ class JuliusClient():
         #self.recvThread.deamon = True
         self.recvThread.start()
 
-    def disconnect():
+    def disconnect(self):
         self.isAlive = False
         self.soc.close()
 
 
     def ParsePacket( self, packet ):
         # 状態の変化を受信した場合
-        packet = packet.decode("utf8")
+        #packet = packet.decode("utf8")
         status = re.findall( u'''INPUT STATUS="(\S+?)"''' , packet )
         if len(status)==1 and status[0]=="STARTREC":
             #print "認識開始"
@@ -124,7 +127,7 @@ class JuliusClient():
         #print com, len(com)
         self.soc.sendall( com.encode("utf8") )
         if  com[-1]!="\n":
-             self.soc.sendall("\n")
+             self.soc.sendall(b"\n")
 
     def ChangeGram( self, filename ):
         dfafile = filename + ".dfa" 

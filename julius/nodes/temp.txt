@@ -1,0 +1,11 @@
+[GRAMMAR]
+hello : ろぼっと、こんにちわ
+grasp : ろぼっと、 $noun_obj をとって
+noise : つ
+
+
+[NOUN]
+$noun_obj
+obj1 : ぬいぐるみ
+obj2 : おちゃ
+obj3 : ぺっとぼとる

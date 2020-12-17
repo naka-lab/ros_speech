@@ -4,14 +4,14 @@ import sys
 def levenshtein_distance(a, b):
     m = [ [0] * (len(b) + 1) for i in range(len(a) + 1) ]
 
-    for i in xrange(len(a) + 1):
+    for i in range(len(a) + 1):
         m[i][0] = i
 
-    for j in xrange(len(b) + 1):
+    for j in range(len(b) + 1):
         m[0][j] = j
 
-    for i in xrange(1, len(a) + 1):
-        for j in xrange(1, len(b) + 1):
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
             if a[i - 1] == b[j - 1]:
                 x = 0
             else:
@@ -56,25 +56,5 @@ def DPMatching( s ):
 
 
 if __name__ == '__main__':
-    s = [
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚¾‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚È‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚Î‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚È‚¦‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚Å‚ñ‚·",
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚·‚¸",
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚Å‚·",
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚¤‚Ä‚Æ‚Ú‚Æ‚é‚º‚·",
-    u"‚ç‚¢‚²‚ë‚±‚ê‚í‚Ä‚Æ‚Ú‚Æ‚é‚º‚¸"
-    ]
+    pass
 
-    DPMatching( s )
-
-    for ss in s:
-        print ss
-
-    #print len(s1) , len(s2)
-
-    #d,s1,s3 = levenshtein_distance(s1, s3)
-    #levenshtein_distance(s3, s2)

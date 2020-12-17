@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding: utf-8
-
+from __future__ import print_function
 import rospy
 import std_msgs
 import julius_client
@@ -39,13 +39,13 @@ class JuliusRecognizer():
         self.pub_recogres_sv = rospy.Publisher('julius/recogres/small_vocab', speech_recres , queue_size=10)
         
 
-        print "execute"
+        print( "execute" )
         os.system( "Julius/KillJulius.sh" )
         os.system( "Julius/LargeVocab.sh &" )
         os.system( "Julius/SmallVocab.sh &" )        
         
         time.sleep( 5 )
-        print "connect"
+        print( "connect" )
         self.__jLargeVocab = julius_client.JuliusClient()
         self.__jLargeVocab.connect( 10000 )
         
@@ -67,8 +67,8 @@ class JuliusRecognizer():
         while not rospy.is_shutdown():
             if self.__jLargeVocab.WaitForRecognized()==julius_client.JULIUS_STATUS_RECOGEND:
                 largeVocabRes = self.__jLargeVocab.GetRecogResults()
-                print "*** 大語彙認識 ***"
-                print largeVocabRes[0].sentence
+                print( "*** 大語彙認識 ***" )
+                print( largeVocabRes[0].sentence )
                 res = speech_recres()
                 for lvr in largeVocabRes:
                     sentence = lvr.sentence.replace("<s>","").replace("</s>","")
@@ -78,8 +78,8 @@ class JuliusRecognizer():
 
                 if self.__jSmallVocab.WaitForRecognized()==julius_client.JULIUS_STATUS_RECOGEND:
                     smallVocabRes = self.__jSmallVocab.GetRecogResults()
-                    print "*** 少語彙認識 ***"  
-                    print smallVocabRes[0].sentence.replace("<s>","").replace("</s>","")
+                    print( "*** 少語彙認識 ***" )
+                    print( smallVocabRes[0].sentence.replace("<s>","").replace("</s>","") )
                     if self.is_valid( largeVocabRes, smallVocabRes ):
                         os.system( "aplay beep_success.wav" )
                         self.publish_small_vocab_results( smallVocabRes )
@@ -96,10 +96,10 @@ class JuliusRecognizer():
         res.noun_str = noun_strs
         res.sentence_id = gram_id
         
-        print res.sentences
-        print "sentenceid:",res.sentence_id
-        print "nounid:",res.noun_id
-        print "nounstr:",res.noun_str
+        print( res.sentences )
+        print( r"sentenceid:",res.sentence_id )
+        print( r"nounid:",res.noun_id )
+        print( r"nounstr:",res.noun_str )
         self.pub_recogres_sv.publish( res )
 
     def normalize_phone( self, phone ):
@@ -110,11 +110,12 @@ class JuliusRecognizer():
     
     def set_gammar( self, req ):
         if len(req.grammar):
-            print "辞書更新"
-            if type(req.grammar)!=unicode:
-                gra = req.grammar.decode("utf8")
-            else:
-                gra = req.grammar
+            print( "辞書更新" ) 
+            #if type(req.grammar)!=unicode:
+            #    gra = req.grammar.decode("utf8")
+            #else:
+            #    gra = req.grammar
+            gra = req.grammar
             f = codecs.open( "temp.txt" , "w", "utf8" )
             f.write(gra)
             f.close()
@@ -136,7 +137,7 @@ class JuliusRecognizer():
             f_dfa.close()
             f_dic.close()
             
-            print "辞書送信"
+            print( "辞書送信" )
             self.__jSmallVocab.SendCommand( packet )
             
         self.__valid_gram_id = []
@@ -154,35 +155,35 @@ class JuliusRecognizer():
         if len(lphone)==0 or len(sphone)==0:
             return False
 
-        print "大語彙比較：",lphone , "-" , sphone,
+        print( "大語彙比較：",lphone , "-" , sphone, )
        
         score = 1-DPMatching.levenshtein_distance( lphone , sphone )[0]/ float(max( (len(lphone), len(sphone)) ))
-        print " -> ", score,
+        print( " -> ", score, )
         if score < score_threshold:
-            print "Rejected"
+            print( "Rejected" )
             return
-        print "Accepted"
-        print 
+        print( "Accepted" )
+        print( )
 
-        print "ロボット名検証",
+        print( "ロボット名検証", )
         for name in robot_names:
             length = len(name)
             name_recog = lphone[:length]
             
             score = 1-DPMatching.levenshtein_distance( name , name_recog )[0]/ float(max( (len(name), len(name_recog)) ))
-            print name_recog, "-", name, score
+            print( name_recog, "-", name, score )
             
             if score>0.5:
-                print "Accepted"
+                print( "Accepted" )
                 return True
             
-            print "Rejected"
+            print( "Rejected" )
         return False
             
                     
 
     def change_grammaer(self,msg):
-        print msg.data
+        print( msg.data  )
         f = codecs.open("tmpgram.txt" , "w" , "utf8")
         f.write(msg.data)
         f.close()
@@ -200,9 +201,10 @@ class JuliusRecognizer():
             self.julius.Send
 
     def shutdown(self):
-        os.system( "Julius/KillJulius.sh" )
+        os.system("Julius/KillJulius.sh")
+        self.__jLargeVocab.disconnect()
+        self.__jSmallVocab.disconnect()
 
 if __name__ == '__main__':
     # julius の準備
-
     JuliusRecognizer()

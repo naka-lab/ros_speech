@@ -108,7 +108,7 @@ def LoadGram( filename ):
                 words = Normalize(gram).strip().split()
                 gramID = Gram2ID( id , words , idDict )
                 grammars.append( [id,words,gramID] )
-                print id,gram," ".join(gramID)
+                #print id,gram," ".join(gramID)
 
     # [NOUN]を読み込み
     start = False
@@ -133,7 +133,7 @@ def LoadGram( filename ):
                 noun = Normalize(noun).strip()
                 onso = ToOnso(noun)
                 nouns[classID].append( [id,noun,onso] )
-                print classID ,id, noun, onso
+                #print classID ,id, noun, onso
 
 
     """
@@ -230,10 +230,10 @@ def CompileGrammar( txtgram, juliusgram ):
     success = True    
     p = os.popen( "perl mkdfa.pl " + juliusgram, "r" )
     for line in p:
-        print line
+        print( line )
         if "no .dfa or .dict file generated" in line:
             success = False
-            print "error"
+            print( "error" )
     p.close()
 
     classID2Name = {}
@@ -248,10 +248,10 @@ def CompileGrammar( txtgram, juliusgram ):
     for className in nouns.keys():
         for nounInfo in nouns[className]:
             word2nounID[(className,nounInfo[1])] = nounInfo[0]
-            print className+"."+nounInfo[1]
+            print( className+"."+nounInfo[1] )
 
-    print word2nounID
-    print classID2Name
+    print( word2nounID )
+    print( classID2Name )
     
     return success
     
@@ -274,7 +274,7 @@ def GetNounID( classIDs, words ):
                     nounIDs.append(nounid)
                     nounStrs.append(w)
         else:
-            print cid,"が辞書にない"
+            print( cid,"が辞書にない" )
             return [],[]
             
     return nounIDs, nounStrs
@@ -297,7 +297,7 @@ def main():
     print "Gammar convert success"
     """
     
-    print CompileGrammar( "temp.txt", "test" )
+    print( CompileGrammar( "temp.txt", "test" ) )
 
 
 

@@ -1,0 +1,35 @@
+%noun_obj
+ぬいぐるみ	n u i g u r u m i 
+おちゃ	o ch a 
+ぺっとぼとる	p e q t o b o t o r u 
+
+%word000
+ろぼっと、	r o b o q t o sp 
+
+%word001
+こんにちわ	k o N n i ch i w a 
+
+%word002
+をとって	o t o q t e 
+
+%word003
+つ	ts u 
+
+%B_hello
+<s>	silB
+
+%E_hello
+</s>	silE
+
+%B_grasp
+<s>	silB
+
+%E_grasp
+</s>	silE
+
+%B_noise
+<s>	silB
+
+%E_noise
+</s>	silE
+
