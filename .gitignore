@@ -1,0 +1,5 @@
+*.py~
+*.pyc
+julius/nodes/temp.*
+jtalk/node/_hoge.wav
+jtalk/node/_log.txt
