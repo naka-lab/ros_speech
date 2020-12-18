@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 import rospy
 import std_msgs
 import julius_client
@@ -116,6 +116,10 @@ class JuliusRecognizer():
             #else:
             #    gra = req.grammar
             gra = req.grammar
+            try:
+                gra = gra.decode("utf8")
+            except:
+                pass
             f = codecs.open( "temp.txt" , "w", "utf8" )
             f.write(gra)
             f.close()

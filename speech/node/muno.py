@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+from __future__ import print_function, unicode_literals
 import rospy
 import std_msgs
 import os
@@ -52,7 +52,11 @@ class muno():
 		if msg.sentence_id=="morning":
 			self.synthesisPub.publish( "おはよう" )
 		elif msg.sentence_id=="grasp":
-			self.synthesisPub.publish( msg.noun_str[0] + "を取ります。" )
+			# for python3
+                        self.synthesisPub.publish( msg.noun_str[0] + "を取ります。" )
+                        
+                        # for python2
+                        # self.synthesisPub.publish( msg.noun_str[0].decode("utf8") + "を取ります。" )
 
 
 	def shutdown(self):

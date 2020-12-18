@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from __future__ import print_function, unicode_literals
 import socket
 import threading
 import re
@@ -36,7 +36,7 @@ class JuliusClient():
                 packet = data[:pos]
                 data = data[pos+2:]
 
-                client.ParsePacket( packet.decode() )
+                client.ParsePacket( packet.decode("utf8") )
 
         client.statusChangeEvent.set()  
 
