@@ -1,3 +1,0 @@
-S : B_hello word000 word001 E_hello
-S : B_grasp word000 noun_obj word002 E_grasp
-S : B_noise word003 E_noise
