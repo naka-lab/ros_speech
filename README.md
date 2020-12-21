@@ -7,6 +7,9 @@ cd ~/catkin_ws/src
 git clone https://github.com/naka-lab/ros_speech.git
 cd ros_speech/
 sudo ./setup.sh
+
+cd ~/catkin_ws/
+catkin_make
 ```
 
 ## 実行
