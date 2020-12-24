@@ -20,7 +20,9 @@ os.chdir(PATH)
 score_threshold = 0.3
 robot_names = [
 "robo", 
-"robotto"
+"robotto",
+"oto",
+"moqt"
 ]
 #######################################
 
@@ -58,14 +60,28 @@ class JuliusRecognizer():
         self.set_gammar( req )
         self.__valid_gram_id = []
 
+        # パラメータのデフォル値を設定
+        if not rospy.has_param( "/julius/robot_names" ):
+            print("set")
+            rospy.set_param( "/julius/robot_names", robot_names )
+        if not rospy.has_param( "/julius/recog_threshold" ):
+            print("set")
+            rospy.set_param( "/julius/recog_threshold", score_threshold )
+
+
         self.main_loop()
   
         os.system( "Julius/KillJulius.sh" )
         
         
     def main_loop(self):
+        global robot_names, score_threshold
         while not rospy.is_shutdown():
             if self.__jLargeVocab.WaitForRecognized()==julius_client.JULIUS_STATUS_RECOGEND:
+                # パラメータ取得
+                robot_names = rospy.get_param("/julius/robot_names")
+                score_threshold = rospy.get_param( "/julius/recog_threshold" )
+
                 largeVocabRes = self.__jLargeVocab.GetRecogResults()
                 print( "*** 大語彙認識 ***" )
                 print( largeVocabRes[0].sentence )

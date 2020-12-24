@@ -26,6 +26,18 @@ obj3 : ぺっとぼとる
 
 """
 
+# 音声認識のスコアに対するしきい値
+# 大きいほど認識は正確になるが、認識しずらくなる
+threshoold = 0.3
+
+# 音声認識機が反応する名前の候補（認識辞書の「ろぼっと」に対応する発音、音素表記で記載）
+robot_names = [
+"robo", 
+"robotto", 
+"oto",
+"moqt"
+]
+
 
 
 class muno():
@@ -40,6 +52,8 @@ class muno():
 		set_grammar = rospy.ServiceProxy('julius/set_grammar', SetGrammar)
 		set_grammar( gram, [] )
 
+		rospy.set_param("/julius/robot_names", robot_names)
+		rospy.set_param("/julius/recog_threshold", threshoold)
 
 		rospy.spin()
 
