@@ -47,6 +47,10 @@ def main():
 	set_grammar = rospy.ServiceProxy('julius/set_grammar', SetGrammar)
 	set_grammar( gram, [] )
 
+	rospy.set_param("/julius/robot_names", robot_names)
+	rospy.set_param("/julius/recog_threshold", threshoold)
+
+
 	while not rospy.is_shutdown():
 		msg = rospy.wait_for_message( '/julius/recogres/small_vocab',  speech_recres )
 
